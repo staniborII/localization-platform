@@ -1,0 +1,14 @@
+---
+description: Stage YAML is the source of truth; .env only selects the deploy target
+alwaysApply: true
+---
+
+# Environment and stage config
+
+`.env` (gitignored) holds only `STAGE`, `AWS_PROFILE`, `AWS_ACCOUNT_ID`, and `AWS_REGION`. `STAGE` is `dev` or `prod`.
+
+`infra/config/config.<stage>.yml` holds stage behavior: names, feature flags, languages, profiles, runtime limits. The account and the region come from `.env` only. Synth fails when `AWS_ACCOUNT_ID` or `AWS_REGION` is missing.
+
+Bucket names are not config and are not environment variables. `resourceName()` builds them.
+
+The runtime slice of the YAML is the `CONFIG` environment variable on every function. Change the YAML and deploy again to change a profile.

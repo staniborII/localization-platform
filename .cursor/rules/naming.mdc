@@ -1,0 +1,23 @@
+---
+description: Physical resource names come from one helper
+globs: infra/**/*.ts
+alwaysApply: false
+---
+
+# Resource names
+
+Import `resourceName` from `infra/lib/utils` for the name AWS stores. The shape is `{service}-{name}-{purpose}-{stage}`, lowercase, hyphens only, at most 63 characters.
+
+Import `stagified` from the same module for the CDK construct id. Write that id in TitleCase, such as `WorkflowHealthDashboard`. The default form appends the stage, such as `WorkflowHealthDashboardDev`. Pass `false` for `workflow-dev`.
+
+A TitleCase purpose passed to `resourceName` is split into hyphens and lowercased, so the stored name stays `bundesliga-localization-workflow-health-dashboard-dev`.
+
+```ts
+// good
+const bucketName = resourceName(parts, "VideoUploadBucket", stage);
+
+// bad — a hand-written name drifts between stages
+const bucketName = "bundesliga-video-upload-dev";
+```
+
+Stack names use the same helper. Do not embed the account id in a name.

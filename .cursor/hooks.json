@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "node .cursor/hooks/guard-deploy.js",
+        "timeout": 300
+      },
+      {
+        "command": "node .cursor/hooks/guard-secrets.js",
+        "failClosed": true
+      }
+    ]
+  }
+}

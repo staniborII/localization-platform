@@ -1,0 +1,22 @@
+---
+description: Least-privilege IAM and private media buckets
+globs: infra/**/*.ts
+alwaysApply: false
+---
+
+# Security
+
+One IAM role per function. Actions are explicit. Resource ARNs are the buckets, table, and state machine this app created.
+
+- Presign role: `s3:PutObject` on `video-upload/*`, and `dynamodb:GetItem` on the job table so a repeated file can return the existing job.
+- Status role: `dynamodb:GetItem` and `dynamodb:UpdateItem` on the job table, `dynamodb:Query` on the `recent` and `status` indexes, `s3:GetObject` on `video-upload/*` and `subtitles/*`, `states:StartExecution` and `states:ListExecutions` and `states:SendTaskSuccess` on this state machine, `states:DescribeExecution` plus `states:GetExecutionHistory` on executions of this state machine, and `transcribe:GetTranscriptionJob` on this account's jobs. The history read feeds the job page. Continue calls `SendTaskSuccess` only when that transcription job is already finished or failed. Step Functions checks `SendTaskSuccess` against the state machine. The response keeps the task token and the execution input out.
+- StartWorkflowOnUpload role: `dynamodb:PutItem` and `dynamodb:GetItem` on the job table, `s3:GetObject` on `video-upload/*`, and `states:StartExecution` on this state machine.
+- Audio extract role: assumed by MediaConvert. `s3:GetObject` on `video-upload/*` and `s3:PutObject` on `audio/*`.
+- WriteTranslatedSubtitles role: read `transcripts/*`, write `subtitles/*`, `transcribe:GetTranscriptionJob` on this account's jobs, and `translate:TranslateText`. Translate has no resource-level ARN.
+- TranscribeFinishedCallback role: `dynamodb:GetItem` on the job table, and `states:SendTaskSuccess` on this state machine. Step Functions checks that action against the state machine. A permission on the execution does not match. The task token still names the waiting execution.
+
+Transcribe reads `video-upload/*` for an MP4 of 2 GiB or less, and `audio/*` in the transcript and subtitle bucket when the MP4 was larger. It writes `transcripts/*`.
+
+S3 Block Public Access stays on. The bucket policy denies non-TLS requests. Presigned URLs expire in 15 minutes. The browser never receives AWS keys. Function URLs require IAM, and CloudFront is the caller.
+
+Do not use `s3:*` or `Resource: "*"` except `translate:TranslateText`, which has no resource ARN, and the MediaConvert job actions, which have no job ARN until the extract exists. `cdk-nag` failures stop synth.

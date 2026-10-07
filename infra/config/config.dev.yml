@@ -1,0 +1,48 @@
+# Inputs to physical names: {service}-{name}-{purpose}-{stage}.
+service: bundesliga
+name: localization
+# Tag applied to every stack.
+owner: bundesliga
+# Dev stacks are deleted with the stack. Prod retains data.
+removalPolicy: destroy
+# Monthly spend alarm in US dollars. A ceiling for the account, not a service price.
+budgetUsd: 25
+features:
+  # False keeps the CloudFront default hostname. No custom domain or Route 53.
+  deployCustomDomain: false
+  # False leaves the volume alone. A file over 2 GiB still has its audio extracted so Transcribe can read it. That extract is not this flag.
+  audioNormalization: false
+  # False writes subtitle files only. Words are not painted into a new video.
+  burnInCaptions: false
+  # The web client polls job status. A live socket is not used.
+  realtimeStatus: poll
+languages:
+  # Spoken languages Transcribe may choose from.
+  candidates: [en-US, de-DE]
+  # Subtitle files written for every job: English, German, Spanish.
+  outputs: [en, de, es]
+# Transcription settings selected by the upload profile.
+# Every profile may be English, German, or both in one file.
+profiles:
+  highlights:
+    speakerLabels: false
+    multiLanguage: true
+  interview:
+    speakerLabels: true
+    maxSpeakers: 3
+    multiLanguage: true
+  feature:
+    speakerLabels: true
+    maxSpeakers: 6
+    multiLanguage: true
+# Must name a profile in this file. Uploads take the profile from the file name.
+defaultProfile: feature
+runtime:
+  # Maximum characters on one subtitle line.
+  cueMaxChars: 42
+  # Maximum lines in one subtitle.
+  cueMaxLines: 2
+  # How often the web client asks for job status, in seconds.
+  pollIntervalSeconds: 2
+  # Below this detection score the job stops for review instead of translating.
+  languageConfidenceMin: 0.8

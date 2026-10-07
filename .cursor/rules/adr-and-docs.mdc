@@ -1,0 +1,15 @@
+---
+description: ADR and Diátaxis documentation shape
+globs: docs/**/*.md
+alwaysApply: false
+---
+
+# Docs and ADRs
+
+Keep Diátaxis types apart. How-to pages give steps. Reference pages list the machinery. Explanation pages hold decisions and trade-offs. Do not mix them.
+
+An ADR lives in `docs/explanation/architecture-decision-records/` and has: context, decision, alternatives, trade-off, cost, and failure behavior. One decision per file.
+
+Write Markdown that GitHub renders. Use relative links. Do not document a pipeline resource that is not in the code yet.
+
+Use everyday words. Name a service setting, then say what it does for a reader. A cue is one subtitle.

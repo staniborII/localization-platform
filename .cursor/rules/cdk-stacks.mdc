@@ -1,0 +1,16 @@
+---
+description: LocalizationStack and the four stacks it creates
+globs: infra/**/*.ts
+alwaysApply: false
+---
+
+# CDK stacks
+
+`infra/bin/app.ts` loads `.env` and creates one stack, `LocalizationStack`. That stack creates the other four and passes buckets, the job table, and the state machine between them:
+
+1. `DataStack` — video upload bucket, transcript and subtitle bucket, access-log bucket, job table
+2. `LocalizationPipelineStack` — job-outcome event bus, state machine, pipeline functions, fan-out topic, inbox queue. Depends on Data. Its deployed name stays `bundesliga-localization-pipeline-{stage}`.
+3. `MonitoringStack` — dashboard, alarms, budget. Depends on the pipeline.
+4. `WebClientStack` — site bucket, CloudFront, presign and status function URLs. Depends on Data and the pipeline.
+
+The browser reaches the two function URLs through CloudFront. There is no API Gateway. Pass constructs across stacks with typed props. `cdk-nag` `AwsSolutionsChecks` stays applied on `LocalizationStack`. A new finding is fixed or suppressed in the stack with a written reason.

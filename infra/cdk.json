@@ -1,0 +1,12 @@
+{
+  "app": "npx tsx bin/app.ts",
+  "watch": {
+    "include": ["bin/**/*.ts", "lib/**/*.ts", "config/**/*.yml"],
+    "exclude": ["cdk.out", "node_modules", "dist", "**/*.test.ts"]
+  },
+  "context": {
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true,
+    "@aws-cdk/core:defaultCrossStackReferences": "strong"
+  }
+}

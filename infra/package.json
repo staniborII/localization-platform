@@ -1,0 +1,39 @@
+{
+  "name": "bundesliga-localization-infra",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "app": "bin/app.ts"
+  },
+  "scripts": {
+    "synth": "tsx bin/app.ts",
+    "cdk": "cdk",
+    "build": "tsc --noEmit",
+    "test": "tsx --test lib/utils/index.test.ts lib/utils/config.test.ts lib/upload/file-name.test.ts lib/upload/content-id.test.ts test/sha256.test.ts lib/stable-job-id/job-id.test.ts lib/transcription/build-transcription-input.test.ts lib/subtitles/cues.test.ts lib/lambda/status/journey.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "aws-cdk": "^2.200.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1146.0",
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/client-sfn": "^3.1146.0",
+    "@aws-sdk/client-transcribe": "^3.1146.0",
+    "@aws-sdk/client-translate": "^3.1146.0",
+    "@aws-sdk/lib-dynamodb": "^3.1146.0",
+    "@aws-sdk/s3-request-presigner": "^3.1146.0",
+    "aws-cdk-lib": "^2.200.0",
+    "cdk-nag": "^2.35.0",
+    "constructs": "^10.4.2",
+    "dotenv": "^16.5.0",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

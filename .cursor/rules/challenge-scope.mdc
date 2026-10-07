@@ -1,0 +1,14 @@
+---
+description: Challenge scope, design-before-code, and local deploy only
+alwaysApply: true
+---
+
+# Challenge scope
+
+This repository is the video localization case study. Design artifacts (diagrams, ADRs, workflow, trade-offs) are the product. Add pipeline resources only after the ADR for that decision exists.
+
+Application code is TypeScript. Infrastructure is AWS CDK under `infra/`. The test UI is a Next.js static export under `client/`.
+
+Deploy from a laptop with `cdk deploy`. Do not add a GitLab or GitHub Actions pipeline.
+
+Sample videos stay on disk. Never commit `*.mp4`.

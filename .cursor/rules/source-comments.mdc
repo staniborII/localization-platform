@@ -1,0 +1,14 @@
+---
+description: File and function comments on source we write
+alwaysApply: true
+---
+
+# Source comments
+
+Every TypeScript file we write starts with a short file comment. One to three lines. It says what the file is for.
+
+Every function and method has a short comment on the line above it. One or two lines. It says what that function does.
+
+Skip generated files under `client/components/ui`, dependencies, and config that has no functions. Tests get a file comment. The `it` description is the case comment.
+
+Write the way you would tell a teammate who has not opened this file. Use everyday words. When a name is specialist language, say what it means in that file's opening comment. A cue, for example, is one subtitle. Do not restate the function name.

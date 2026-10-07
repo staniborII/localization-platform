@@ -1,0 +1,14 @@
+---
+description: Prefer serverless and record the pricing unit before adding a service
+alwaysApply: true
+---
+
+# Cost
+
+Prefer a serverless service when it meets the duration, payload, and packaging need. A managed service that is not serverless is allowed when it is the better tool. The ADR names the pricing unit and the serverless option that was set aside.
+
+Stay in one region. Do not add a VPC, NAT gateway, or provisioned concurrency unless an ADR accepts the standing charge.
+
+Demo traffic uses the CloudFront default hostname. A custom domain and a web application firewall stay off until `deployCustomDomain` is true or an ADR says otherwise.
+
+Dev stacks use `removalPolicy: destroy`. Prod uses `retain`.

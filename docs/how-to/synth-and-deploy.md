@@ -10,17 +10,14 @@ Run these commands from `infra/`.
    copy .env.example .env
    ```
 
-2. Build the web client, install, and synthesize. Synth packages the static export, so the client build comes first:
+2. Install and synthesize. Synth builds the web client when the pages are newer than `client/out`, then packages that folder:
 
    ```bash
-   cd ../client
-   npm run build
-   cd ../infra
    npm install
    npx cdk synth
    ```
 
-`cdk synth` loads `config.dev.yml` or `config.prod.yml` from `STAGE`. It reads the account and the region from `.env`. With the placeholder account, synth succeeds. It does not deploy.
+`cdk synth` loads `config.dev.yml` or `config.prod.yml` from `STAGE`. It reads the account and the region from `.env`. With the placeholder account, synth succeeds. It does not deploy. A current export is left as it is. A page change runs `npm run build` in `client/` before the site folder is packaged.
 
 ## Deploy
 

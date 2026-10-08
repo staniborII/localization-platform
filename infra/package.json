@@ -9,7 +9,7 @@
     "synth": "tsx bin/app.ts",
     "cdk": "cdk",
     "build": "tsc --noEmit",
-    "test": "tsx --test lib/utils/index.test.ts lib/utils/config.test.ts lib/upload/file-name.test.ts lib/upload/content-id.test.ts test/sha256.test.ts lib/stable-job-id/job-id.test.ts lib/transcription/build-transcription-input.test.ts lib/subtitles/cues.test.ts lib/lambda/status/journey.test.ts"
+    "test": "tsx --test lib/utils/index.test.ts lib/utils/config.test.ts lib/upload/file-name.test.ts lib/upload/content-id.test.ts test/sha256.test.ts lib/stable-job-id/job-id.test.ts lib/transcription/build-transcription-input.test.ts lib/subtitles/cues.test.ts lib/lambda/status/journey.test.ts lib/web-client/site-export.test.ts"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

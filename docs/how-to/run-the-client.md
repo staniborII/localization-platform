@@ -21,4 +21,4 @@ Local `next dev` can show the pages. It has no API. Upload and job status work o
 npm run build
 ```
 
-`output: "export"` writes the site to `client/out`. The build then moves page data files that a Windows export saves in a nested folder onto the flat names the browser requests. Synth packages that folder, and the web client stack uploads it to the site bucket. Build the client before `cdk synth`.
+`output: "export"` writes the site to `client/out`. The build then moves page data files that a Windows export saves in a nested folder onto the flat names the browser requests. `cdk synth` and `cdk deploy` run this build when the pages are newer than `client/out`, then the web client stack uploads that folder. An unchanged site is left as it is.

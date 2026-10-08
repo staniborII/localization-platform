@@ -31,6 +31,7 @@ import type { Construct } from "constructs";
 import { runtimeConfigValue } from "../shared/environment";
 import { serviceFunction } from "../shared/function";
 import { resourceName, stagified } from "../utils";
+import { ensureSiteExport } from "../web-client/site-export";
 import { NamedStack, type AppStackProps } from "./named-stack";
 
 export interface WebClientStackProps extends AppStackProps {
@@ -238,7 +239,7 @@ export class WebClientStack extends NamedStack {
       true,
     );
     new BucketDeployment(this, stagified("SiteAssets", stage), {
-      sources: [Source.asset(path.join(__dirname, "../../../client/out"))],
+      sources: [Source.asset(ensureSiteExport())],
       destinationBucket: site,
       distribution,
       distributionPaths: ["/*"],

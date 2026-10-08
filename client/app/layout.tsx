@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Localization web client",
-  description: "Upload a video and follow subtitle jobs.",
+  description: "Speech in an MP4 becomes English, German, and Spanish subtitle files.",
 };
 
 /** Wraps every page with the fonts and the theme script. */

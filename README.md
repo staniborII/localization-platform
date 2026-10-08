@@ -15,6 +15,7 @@ Turns speech in an MP4 video into English, German, and Spanish subtitle files. T
 | [Configuration](docs/reference/configuration.md) | Stage files and environment variables |
 | [Synth and deploy](docs/how-to/synth-and-deploy.md) | Check and deploy the infrastructure |
 | [Run the client](docs/how-to/run-the-client.md) | Build and open the web client |
+| [Solution brief](docs/explanation/solution-brief.md) | Services, events, cost, and trade-offs in one pass |
 | [Presentation](docs/presentation.md) | The same story, for the room |
 | [Agent tooling](docs/reference/agent-tooling.md) | Rules, skills, and hooks that guide an agent in this repo |
 

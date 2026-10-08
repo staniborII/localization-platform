@@ -36,7 +36,26 @@ Lower-thirds, such as a club crest and a "youngest goalscorer" graphic, are desi
 
 ## Review is a later loop
 
-A low-confidence language detection stops before translation and is stored as needs review. The web client can force `en-US` or `de-DE`, which transcribes the file again. When the stored transcript already contains more than one language, the web client can accept it and write the subtitle files without a new transcription. A person cannot yet correct a line and feed that correction back into a vocabulary. That loop is what makes the subtitles broadcast-quality. This version produces the first draft and surfaces the failure.
+A low-confidence language detection stops before translation and is stored as needs review. The web client can force `en-US` or `de-DE`, which transcribes the file again. When the stored transcript already contains more than one language, the web client can accept it and write the subtitle files without a new transcription. A person cannot yet correct a line and feed that correction back into a vocabulary. That loop is what makes the subtitles broadcast-quality. This version produces the first draft and surfaces the failure. The mistakes in that draft are in [Known issues](#known-issues).
+
+## Known issues
+
+The subtitle step copies what Transcribe already wrote. A wrong word or a wrong speaker tag is in the transcript before any subtitle is made.
+
+| Issue | Cause | Given time |
+| --- | --- | --- |
+| "the" comes out as "DE" | `IdentifyMultipleLanguages` is on for every profile, with only `en-US` and `de-DE`. A short English word is sometimes decoded by the German model. | An English-only file can already be rerun with `LanguageCode` set to `en-US`. A name list does not fix this. The feature file mixes both languages, so forcing one language would drop the other. |
+| "Florian Wirtz" comes out as "Florian Wurz" | The general model spells the name the way it sounds. Translate copies that spelling into the other subtitle files. | A custom vocabulary, one for `en-US` and one for `de-DE`, attached with `LanguageIdSettings`. That list is a new Transcribe resource and needs an ADR. Uploading the same file again leaves the words as they are. |
+| Speaker identification keeps the previous voice | Diarization missed the turn. The voice changes, but the label stays on the earlier speaker instead of `spk_2`. `speakerAt` copies that segment, and a new subtitle starts only when the label changes. | A person retags the cue. Interview allows 3 speakers and feature allows 6. A higher ceiling does not create a turn that was never marked. These files are one mixed soundtrack, so channel identification does not apply. |
+
+`SoundsLike` is how the name is said. `DisplayAs` is how it should be written.
+
+| Phrase | SoundsLike | DisplayAs |
+| --- | --- | --- |
+| Florian-Wirtz | Florian-Wurz | Florian Wirtz |
+| Wirtz | Wurz | Wirtz |
+
+Club names and other squad names belong on that same list, in both languages.
 
 ## English samples, German brief
 

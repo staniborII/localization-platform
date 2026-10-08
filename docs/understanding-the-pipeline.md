@@ -30,6 +30,8 @@ The video stays at `video-upload/{profile}/{id}.mp4` in the video upload bucket.
 | Content lock | A second item in the same job table. The real job uses a 32-character jobId. The lock uses a 64-character hash of the file contents, the size, the profile, and the subtitle languages in that same column. The lock item has two other fields: kind set to content, and targetJobId set to the real job. Uploading the same video again finds that item and follows targetJobId, so it does not start another job. The file name is not part of the hash. |
 
 
+
+
 ## The path
 
 Two buses move the work. The default bus carries events that S3 and Transcribe already publish. The application bus carries the one event this pipeline publishes when a job reaches a terminal status. A rule on a bus invokes the next function. If that delivery fails, the event lands on a dead-letter queue. The same steps are written out in [the state machine section](#4-the-state-machine-waits-for-the-transcript).
@@ -87,6 +89,8 @@ flowchart TD
   topic --> queue
   queue -->|message fails 5 times| inboxDlq
 ```
+
+
 
 
 
@@ -445,6 +449,10 @@ Lower-thirds, such as a club crest and a "youngest goalscorer" graphic, are part
 #### Review is a later loop
 
 A language score below 0.8 stops before translation and is stored as needs review. The web client can force `en-US` or `de-DE`, which transcribes the file again. When the stored transcript already contains more than one language, the web client can accept it and write the subtitle files without a new transcription. A person cannot yet correct a line and feed that correction back. That loop is what would make the subtitles broadcast-quality. This version produces the draft and records the failure.
+
+#### Known issues
+
+The subtitle step copies what Transcribe already wrote. A short English word can come out as "DE", a name can be spelled the way it sounds, and speaker identification can keep the previous voice. The cause and the later fix are in [Known issues](explanation/trade-offs.md#known-issues).
 
 #### English samples, German brief
 
